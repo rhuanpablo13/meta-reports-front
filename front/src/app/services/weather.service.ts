@@ -45,14 +45,32 @@ export class WeatherService {
 			catchError(this.handleError))
 	}
 
+	// deleta um carro
+	deleteWeather(weather: Weather) {
+		return this.httpClient.delete<Weather>(this.URL + '/forecast/local/' + weather.id, this.httpOptions)
+		  .pipe(
+			retry(1),
+			catchError(this.handleError)
+		  )
+	}
+
 	// salva um carro
-	// saveCar(weather: Weather): Observable<Weather> {
-	// 	return this.httpClient.post<Weather>(this.URL + 'forecast', JSON.stringify(weather), this.httpOptions)
-	// 	  .pipe(
-	// 		retry(2),
-	// 		catchError(this.handleError)
-	// 	)
-	// }
+	saveWeather(weather: Weather): Observable<Weather> {
+		return this.httpClient.post<Weather>(this.URL + '/forecast', JSON.stringify(weather), this.httpOptions)
+		  .pipe(
+			retry(2),
+			catchError(this.handleError)
+		)
+	}
+
+
+	updateWeather(weather: Weather): Observable<Weather> {
+		return this.httpClient.put<Weather>(this.URL + '/forecast', JSON.stringify(weather), this.httpOptions)
+		  .pipe(
+			retry(2),
+			catchError(this.handleError)
+		)
+	}
 
 	// Manipulação de erros
 	handleError(error: HttpErrorResponse) {
